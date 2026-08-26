@@ -1,0 +1,2 @@
+dados_landmarks.json filter=lfs diff=lfs merge=lfs -text
+modelo_notas.pkl filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,10 @@
+Mas no momento, estou testando sem o arduino, então estamos testando a captura de gestos e  a melhorando, então queria realmente testar no mediapipe e no opencv. Somente para testes é claro.
+
+Para testar só MediaPipe + OpenCV sem Arduino, a otimização mais direta é rodar o MediaPipe em thread separada. Funciona porque o MediaPipe roda em C++ por baixo — escapa do GIL e usa o segundo núcleo de verdade.
+
+A lógica é:
+
+Thread 1 (principal): captura frame da câmera, desenha HUD, exibe na tela
+Thread 2: pega o frame mais recente, roda o MediaPipe, devolve o resultado
+
+Quer que eu implemente isso no notas_musicais_rf.py como versão de teste, sem mexer no arquivo de coleta?
