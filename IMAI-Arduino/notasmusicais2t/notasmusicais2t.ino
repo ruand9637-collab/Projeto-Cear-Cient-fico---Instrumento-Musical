@@ -1,4 +1,4 @@
-const int pinoBuzzer = 25; 
+const int pinoBuzzer = 22; 
 const int DURACAO_BIP = 150;
 
 void setup() {

@@ -20,9 +20,9 @@ def buscar_indice_camera_por_nome(nome_procurado):
 
 NOME_DA_CAMERA_DESEJADA = "OBS Virtual Camera"
 
-# =========================================================================
+
 # CONFIGURAÇÕES GERAIS
-# =========================================================================
+
 PORTA_SERIAL   = 'COM9'
 ARQUIVO_MODELO = r"C:\Users\INFORMÁTICA\Documents\projeto ruan 3 bimestre\IMAI-Arduino\v0.1.1 (testes)\modelo_notas.pkl"
 # ARQUIVO_MODELO = "modelo_notas.pkl"
@@ -47,9 +47,7 @@ multiplicador_figura = 1.0
 intervalo_batida = (60.0 / BPM) * multiplicador_figura
 ultimo_tempo_batida = time.time()
 
-# =========================================================================
 # CONEXÃO SERIAL COM ARDUINO / ESP32
-# =========================================================================
 try:
     arduino = serial.Serial(PORTA_SERIAL, 9600, timeout=0.1)
     time.sleep(2)
@@ -58,9 +56,9 @@ except Exception as e:
     print(f"Arduino/ESP32 não encontrado: {e}. Rodando em modo visual.")
     arduino = None
 
-# =========================================================================
+
 # CARREGAMENTO DO MODELO DE IA
-# =========================================================================
+
 if not os.path.exists(ARQUIVO_MODELO):
     print(f"Modelo '{ARQUIVO_MODELO}' não encontrado. Execute o treino primeiro.")
     exit()
@@ -69,9 +67,8 @@ with open(ARQUIVO_MODELO, "rb") as f:
     clf = pickle.load(f)
 print("Modelo de IA carregado.")
 
-# =========================================================================
 # SETUP DO MEDIAPIPE (Com suporte a pastas com acento no Windows)
-# =========================================================================
+
 caminho_atual = os.path.dirname(os.path.abspath(__file__))
 modelo_path = os.path.join(caminho_atual, '..', 'hand_landmarker.task')
 
@@ -115,10 +112,8 @@ def extrair_features(pontos_mao):
 
     return np.array(features)
 
-
-# =========================================================================
 # GERENCIAMENTO DE THREADS
-# =========================================================================
+
 frame_lock = threading.Lock()
 resultado_lock = threading.Lock()
 novo_frame_evento = threading.Event()
