@@ -47,8 +47,8 @@ void setup() {
  /* digitalWrite(PINO_VIBRACAO, LOW);
   pinMode(PINO_VIBRACAO, OUTPUT);
   analogWrite(PINO_VIBRACAO, 0); 
-}*/
-
+*/
+}
 void pararAudioI2S() {
   // Envia amostras ZERADAS para forçar o silêncio e desligar o amplificador
   int16_t buffer_zero[2] = {0, 0};
@@ -87,20 +87,20 @@ void loop() {
 
     if (letraLibras == '\n' || letraLibras == '\r') return;
 
+    ultimo_comando = millis();
+
     switch (letraLibras) {
       case 'X': 
         pararAudioI2S();
-        ultimo_comando = millis();
         break;
 
-      // tocarNotaI2S(Frequencia_Som, Duracao_ms, Intensidade_Vibracao_0_a_255)
-      case 'C': tocarNotaI2S(262.0, DURACAO_BIP, 255); break; // Dó: Vibração Forte (Grave)
-      case 'D': tocarNotaI2S(294.0, DURACAO_BIP, 220); break; // Ré
-      case 'E': tocarNotaI2S(330.0, DURACAO_BIP, 180); break; // Mi
-      case 'F': tocarNotaI2S(349.0, DURACAO_BIP, 150); break; // Fá
-      case 'G': tocarNotaI2S(392.0, DURACAO_BIP, 120); break; // Sol
-      case 'A': tocarNotaI2S(440.0, DURACAO_BIP, 90);  break; // Lá
-      case 'B': tocarNotaI2S(494.0, DURACAO_BIP, 60);  break; // Si: Vibração Leve (Agudo)
+      case 'C': tocarNotaI2S(262.0, DURACAO_BIP, 255); break; 
+      case 'D': tocarNotaI2S(294.0, DURACAO_BIP, 220); break; 
+      case 'E': tocarNotaI2S(330.0, DURACAO_BIP, 180); break; 
+      case 'F': tocarNotaI2S(349.0, DURACAO_BIP, 150); break; 
+      case 'G': tocarNotaI2S(392.0, DURACAO_BIP, 120); break; 
+      case 'A': tocarNotaI2S(440.0, DURACAO_BIP, 90);  break; 
+      case 'B': tocarNotaI2S(494.0, DURACAO_BIP, 60);  break; 
     }
   }
 }
