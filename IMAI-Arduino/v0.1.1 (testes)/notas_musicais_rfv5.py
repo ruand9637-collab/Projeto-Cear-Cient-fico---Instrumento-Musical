@@ -33,7 +33,7 @@ MAPA_NOTA_COMANDO = {
 }
 
 # --- CONFIGURAÇÃO DO METRÔNOMO ---
-BPM = 120  # BPM inicial padrão
+BPM = 50  # BPM inicial padrão
 FIGURAS = {
     ord('1'): ("Seminima",    1.0),   # 1 batida
     ord('2'): ("Minima",      2.0),   # 2 batidas

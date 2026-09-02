@@ -2,21 +2,21 @@
 #include <math.h>
 
 const i2s_port_t i2s_num = I2S_NUM_0;
-const int DURACAO_BIP = 150; 
+const int DURACAO_BIP = 150; //ms 
 
 unsigned long ultimo_comando = 0;
 const unsigned long TIMEOUT_MS = 2000; // 2 segundos sem comando = para tudo
 
-// Se o módulo de vibração estiver em um pino digital separado (ex: GPIO 13)
-//const int PINO_VIBRACAO = 32; 
-
 const int PINO_SD = 14;
+const int PINO_BUZZER = 33;
 
 void setup() {
   Serial.begin(9600);
 
   pinMode(PINO_SD, OUTPUT);
   digitalWrite(PINO_SD, HIGH);
+
+  pinMode(PINO_BUZZER, OUTPUT);
 
   // Configuração I2S (Mantenha a sua configuração atual aqui)
   i2s_config_t i2s_config = {
@@ -67,12 +67,15 @@ void tocarNotaI2S(float frequencia, int duracao_ms, int intensidade_vibracao) {
   // Aciona motor PWM externo (se houver)
   analogWrite(PINO_VIBRACAO, intensidade_vibracao);
 */
+
+  // Dispara o buzzer ANTES do loop do I2S
+  tone(PINO_BUZZER, (int)frequencia, duracao_ms);
+
   for (int i = 0; i < total_amostras; i++) {
-    int16_t sample = (int16_t)(sin(i * 2.0 * M_PI * frequencia / sample_rate) * 10000);
+    int16_t sample = (int16_t)(sin(i * 2.0 * M_PI * frequencia / sample_rate) * 8000);
     int16_t buffer[2] = {sample, sample};
     i2s_write(i2s_num, &buffer, sizeof(buffer), &bytes_escritos, portMAX_DELAY);
   }
-
   // Corta a vibração e zera o I2S ao terminar o tempo do bip
   pararAudioI2S();
 }
@@ -96,11 +99,11 @@ void loop() {
 
       case 'C': tocarNotaI2S(262.0, DURACAO_BIP, 255); break; 
       case 'D': tocarNotaI2S(294.0, DURACAO_BIP, 220); break; 
-      case 'E': tocarNotaI2S(330.0, DURACAO_BIP, 180); break; 
+      case 'E': tocarNotaI2S(330.0, DURACAO_BIP, 180); break;
       case 'F': tocarNotaI2S(349.0, DURACAO_BIP, 150); break; 
-      case 'G': tocarNotaI2S(392.0, DURACAO_BIP, 120); break; 
-      case 'A': tocarNotaI2S(440.0, DURACAO_BIP, 90);  break; 
-      case 'B': tocarNotaI2S(494.0, DURACAO_BIP, 60);  break; 
+      case 'G': tocarNotaI2S(392.0, DURACAO_BIP, 120); break;
+      case 'A': tocarNotaI2S(440.0, DURACAO_BIP, 90); break;
+      case 'B': tocarNotaI2S(494.0, DURACAO_BIP, 60); break;
     }
   }
 }
